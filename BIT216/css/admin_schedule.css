@@ -1,0 +1,218 @@
+body {
+    font-family: 'Jua', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    margin-left: 310px; /* Sidebar width + some margin */
+    padding: 20px;
+    padding-top: 0;
+  }
+
+  .content{
+    width: 90%;
+    padding: 50px;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    padding-right: 0;
+  }
+  
+  header {
+    margin-left: 0;
+    margin-bottom: 20px;
+    background-color: #192b3f;
+    color: white;
+    padding: 10px;
+    border-radius: 25px;
+    text-align: center;
+    font-size: larger;
+  }
+  
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    background-color: #192b3f;
+    padding: 20px;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 0;
+  }
+
+  .logo{
+    width:100%;
+    margin-bottom: 100px;
+  }
+
+  .logo img {
+    width: 60%;
+    display: block;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+  
+  /* Sidebar buttons */
+  .navbar {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .nav-btn {
+    width: 78%;
+    padding: 20px;
+    margin-bottom: 10px;
+    background-color: #f1f1f1;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: larger;
+    color: #000;
+    border-radius: 25px;
+    text-decoration: none;
+  }
+  
+  .nav-btn:hover, .nav-btn.active {
+    background-color: #0056b3;
+    color: white;
+  }
+  
+  .days-selector {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 buttons per row */
+    grid-gap: 10px; /* Space between buttons */
+    margin-bottom: 20px;
+    
+  }
+  
+  .day-btn {
+    background-color: #ddd;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    font-family: 'Jua', sans-serif !important;
+    font-size:large;
+  }
+  
+  .day-btn:hover {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .schedule-display {
+    border: 1px solid #ddd;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 25px;
+    box-shadow: 2px 5px 30px #bfbdbd;
+  }
+  
+  .schedule-day {
+    display: none;
+  }
+  
+  .schedule-day h3 {
+    margin: 15px;
+    margin-left: 10px;
+  }
+  
+  .time-slot {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    transition: background-color 0.3s ease;
+  }
+
+  .no-time{
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    text-align: center;
+    padding-left: auto;
+    padding-right: auto;
+  }
+  
+  .time-slot:hover {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .time-slot.selected {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .actions {
+    text-align: center;
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: center;
+  }
+  
+  .actions button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100px;
+    font-size: large;
+    font-family: 'Jua', sans-serif;
+  }
+  
+  .actions button:hover {
+    background-color: #0056b3;
+  }
+  
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .modal-buttons {
+    margin-top: 20px;
+  }
+  
+  .modal-buttons button {
+    margin: 5px;
+    padding: 10px 20px;
+  }
+
+  .day-btn.selected-day {
+    background-color: #0056b3;
+    color: white;
+  }

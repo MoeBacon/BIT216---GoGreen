@@ -1,0 +1,575 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+
+body {
+    /* font-family: 'Arial', sans-serif; */
+    /* font-family: "Lucida Console", "Courier New", monospace; */
+    font-family: 'Jua', sans-serif;
+    background-color: #f6f7fb;
+    color: #333;
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    height: 100%;
+}
+
+.sidebar {
+    background-color: #3a3939e9;
+    /* padding: 20px; */
+    width: 300px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #ddd;
+    
+}
+
+    
+.logo img {
+    width: 140px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+.noti i{
+    transition: transform 0.3s ease;
+}
+
+.noti .noti-num{
+    transition: transform 0.3s ease;
+}
+
+.noti:hover i{
+    transform: scale(1.2) rotate(8deg);
+}
+
+.noti:hover .noti-num{
+    transform: scale(1.2);
+}
+
+.menu{
+    margin-top: 80px;
+    /* margin-left: 20px; */
+}
+
+.menu ul {
+    list-style: none;
+}
+
+.menu ul li {
+    padding: 10px;
+    padding-left: 35px;
+    height: 50px;
+}
+
+.menu ul li a {
+    text-decoration: none;
+    color: #f2f2f2;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.menu ul li i{
+    margin-right: 10px;
+}
+
+.menu ul li span, .menu ul li i{
+    transition: transform 0.3s ease;
+}
+
+.menu ul li:hover span{
+    transform: scale(1.15) translateX(45px); 
+}
+
+.menu ul li:hover i{
+    transform: scale(1.2) rotate(10deg);
+}
+
+.menu ul li:hover{
+    background-color: #565353e9;
+}
+
+.menu ul li a.active {
+    color: #a2df9c;
+    font-weight:550;
+}
+
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    background-image: url("../image/download.png");
+    /* background-color: #ecfcf1fa; */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-clip: padding-box;
+    height: 100%;
+    
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 30px;
+    
+}
+
+/* .welcome-message{
+    margin-left: 50px;
+} */
+
+.header .welcome-message h1 {
+    font-size: 50px;   
+    font-weight: bolder;
+}
+
+.noti{
+    font-size: 28px;
+    background: none;   
+    border: none;        
+    padding: 0;   
+    margin: 0;              
+    cursor: pointer;        
+    display: inline-flex;    
+    align-items: center;     
+    justify-content: center;
+    margin-right: 25px; 
+    position: relative;
+
+}
+
+.noti-num {
+    position: absolute;
+    top: -8px; 
+    right: -8px; 
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    font-weight: bold;
+    width: 18px;
+    height: 18px;
+}
+
+
+
+.welcome-message p{
+    font-size: larger;
+}
+
+.header .user-profile {
+    /* display: flex;
+    align-items: center; */
+    margin-right: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header .user-profile img {
+    /* width: 50px;
+    border-radius: 50%; */
+    margin-right: 10px;
+    width: 50px; 
+    height: 50px;
+    border-radius: 50%; 
+    object-fit: cover; 
+    border: 1px solid #3a3939;
+}
+
+.user-profile p{
+    padding-top: auto;
+    padding-bottom: auto;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    border-radius: 30px;
+    /* box-shadow: 0 2px 2px rgba(23, 23, 23, 0.15); */
+    /* background-color: rgb(224, 250, 233,0.1); */
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 0;
+    padding-right: 0;
+    max-height: 530px;
+}
+
+.profile-card {
+    background-color: rgba(255, 255, 255, 0.95);
+    color: black;
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7); 
+    max-width: 630px;
+    max-height: 450px;
+}
+
+.details{
+    display: flex;
+    justify-content: space-between;
+}
+
+.timetable{
+    border-radius: 15px;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
+    /* border: solid 1px; */
+    padding: 15px;
+    width: 72%;
+    height: auto;
+}
+
+.timetable-font{
+    font-size: 23px !important;
+    font-weight: 600;
+}
+
+.timetable-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    padding:5px;
+}
+
+.day{
+    font-size: 19px;
+}
+
+.time{
+    margin-right: 30px;
+}
+
+.type{
+    height: 241.8px;
+    width: 120px;
+    /* border: solid 1px black; */
+    border-radius: 15px;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+.type-circle{
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    border: solid 3px rgb(162, 223, 156);
+    margin: 5px;
+    position: relative;
+}
+
+.hover-window {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(15%);
+    width: 350px;
+    height: 250px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    border-radius: 20px;
+    background-color: rgba(0, 0, 0, 0.5); /* Add a semi-transparent color */
+    background-blend-mode: darken; /* Blend the image with the color to dim it */
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+}
+
+.type-circle:hover .hover-window {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+.type> :first-child{
+    background-image: url("../image/paper.png");
+    background-size: cover; 
+    background-position: center;  
+    background-repeat: no-repeat;
+    background-size: 75%;
+}
+
+.type > :nth-child(2){
+    background-image: url("../image/aluminium.png");
+    background-size: cover; 
+    background-position: center;  
+    background-repeat: no-repeat;
+    background-size: 75%;
+}
+
+.type > :nth-child(3){
+    background-image: url("../image/plastic.png");
+    /* background-size: cover;  */
+    background-position: center;  
+    background-repeat: no-repeat;
+    background-size: 75%;
+}
+
+.window1{
+    background-image: url("../image/paper-content.jpg");
+    background-position: center;
+    background-repeat: no-repeat; 
+    background-size: 100%;
+}
+
+.window2{
+    background-image: url("../image/aluminium-content.jpg");
+    background-position: center;
+    background-repeat: no-repeat; 
+    background-size: 100%;
+}
+
+.window3{
+    background-image: url("../image/plastic-content.jpeg");
+    background-position: center;
+    background-repeat: no-repeat; 
+    background-size: cover;
+}
+
+.schedule{
+    width: auto;
+    height: 75px;
+    background-color: rgb(162, 223, 156);
+    border: solid 2 px rgb(51, 57, 51) !important;
+    border-radius: 15px;
+    margin-top: 15px;
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+}
+
+/* .timetableHR{
+    width: 50%;
+} */
+
+/* .profile-picture {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    flex: 0 0 250px;
+    min-width: 0;
+}
+
+.profile-picture img {
+    width: 150px; 
+    height: 150px;
+    border-radius: 50%; 
+    object-fit: cover; 
+    border: 2px solid #000000; 
+} */
+
+.schedule-btn{
+    background: none;   
+    border: none;        
+    padding: 0;   
+    margin: 0;              
+    cursor: pointer;        
+    display: inline-flex;    
+    align-items: center;     
+    justify-content: center;
+    color:rgb(0, 0, 0);
+    font-size: 28px;
+    width: 100%;
+    font-weight: 900;
+    font-family: 'Jua', sans-serif;
+    border-radius: 15px;
+    border: 3px solid rgb(102, 146, 97);
+}
+
+.schedule-btn span{
+    transition: all 0.3s cubic-bezier(0.5, 0, 0.01, 1);
+}
+
+.schedule-btn:hover #schedule-text{
+    transform: scale(1.15) translateX(-30px);
+}
+
+.schedule-btn:hover #your-text{
+    transform: scale(1.15);
+}
+
+.schedule-btn:hover #pickup-text{
+    transform: scale(1.15)translateX(30px);
+}
+
+.new-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+}
+
+.community{
+    color: #a3a3a3;
+    font-size:small;
+}
+
+
+
+.accounts,
+.statistics {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: black;
+    padding: 20px;
+    border-radius: 25px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+    flex: 1;
+    width: 100%;
+    max-height: 200px;
+    min-height: 220px;
+}
+  
+
+
+.profile-card {
+    width:100%;
+    height: 100%;
+}
+
+.profile-card h2{
+    font-size:xx-large;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #a2df9c;
+}
+
+.profile-card p{ 
+    font-size: larger;
+    padding-bottom: 5px;
+}
+
+
+.account-bill-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 10px;
+    flex: 1;
+    height: 100%;
+}
+
+
+
+.account {
+    margin-bottom: 20px;
+
+}
+
+.bill {
+    margin-bottom: 15px;
+
+}
+
+.history-h2{
+    text-align: right;
+}
+
+.accounts h2{
+    padding-bottom: 7px;
+}
+
+.history-content{
+    margin: 5px;
+}
+
+.history-line{
+    background-color: #a2df9c;
+    border: none;
+    height: 2px;
+    border-radius: 10px;
+}
+
+.statistics-h2{
+    float: right;
+    
+}
+
+#myChart{
+    margin-top: 10px;
+    max-width: 300px;
+}
+
+.save-btn,
+.block-btn,
+.unblock-btn {
+    background-color: #f94a8e;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.sms-alert {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 14px;
+}
+
+.status.paid {
+    background-color: #22c55e;
+    color: #fff;
+}
+
+.status.unpaid {
+    background-color: #ef4444;
+    color: #fff;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    .header,
+    .content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .account-bill-container {
+        flex-direction: column;
+    }
+
+    .profile-card,
+    .accounts,
+    .statistics {
+        width: 50%;
+    }
+}
