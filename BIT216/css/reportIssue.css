@@ -613,29 +613,29 @@ body {
 }
 
 .input-container {
-    position: relative;
-    margin-bottom: 15px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    gap: 10px; 
 }
 
 .input-container input,
 .input-container textarea,
-.input-container select{
+.input-container select {
     width: 100%;
     padding: 10px;
     font-size: 1rem;
     border: 1px solid #ddd;
     border-radius: 5px;
+    box-sizing: border-box; 
+    margin: 0; 
+    line-height: 1.5; 
 }
 
-.input-container textarea{
+.input-container textarea {
     height: 60px;
     max-height: 60px;
     min-height: 60px;
-    width: 100%;
-    max-width: 900px;
-
+    resize: none; 
 }
 
 
