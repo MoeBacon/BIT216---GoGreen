@@ -321,6 +321,11 @@ body {
     background: #ef3139;
     border-color: #ef3139;
   }
+  
+  .btn.btn-primary:before {
+    opacity: 0;
+  }
+  
   .btn-primary:hover {
     background: #022d62;
     border-color: #022d62;
