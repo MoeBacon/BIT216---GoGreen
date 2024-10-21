@@ -620,7 +620,7 @@ body {
     width: 100%;
 }
 
-.input-container textarea {
+textarea {
     width: 100%;
     padding: 10px;
     font-size: 1rem;
