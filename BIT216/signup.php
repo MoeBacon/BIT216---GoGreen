@@ -86,7 +86,7 @@
                     <div class="row">
                         <div class="col-lg-8 col-md-10 ms-auto me-auto">
                             <div class="register-form text-center">
-                                <form id="customerForm" method="POST" action="php/functions.php?op=userSignUp" onsubmit="return validatePassword()">
+                                <form id="customerForm" method="POST" action="php/functions.php?op=userSignUp">
                                     <div class="messages"></div>
                                     <div class="row">
                                         <div class="col-md-6">
