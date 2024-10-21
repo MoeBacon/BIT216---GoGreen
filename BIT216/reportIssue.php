@@ -1,3 +1,12 @@
+<?php
+    include 'php/dbConnect.php';
+    session_start();
+    if(!isset($_SESSION['username'])){
+        header ("Location: login.php");
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +31,7 @@
             ?>
         </aside>
         <main class="main-content">
-        <form class="report-form">
+        <form class="report-form" id="form" method="post" action="php/functions.php?op=issueReport" enctype="multipart/form-data">
             <div class="banner">
                 <h2>Every report matters. How can we help you?</h2>
             </div>
@@ -45,147 +54,46 @@
                     <p>Others</p>
                 </div>
             </div>
-            <input type="hidden" id="selectedOption" name="selectedOption">
+            <input type="hidden" id="selectedOption" name="selectedOption" value="">
             <div class="input-container">
                 <label for="photoUpload">Upload a Photo (optional)</label>
                 <span class="semi">:</span>
-                <input type="file" id="photoUpload" name="photoUpload" accept="image/*">
+                <div class="file-upload-wrapper">
+                    <input type="file" id="photoUpload" name="photoUpload" accept=".jpg, .jpeg, .png, image/*">
+                    <span class="remove-file" id="removeFile">&times;</span>
+                </div>
+
             </div>
             <div class="input-container">
                 <label for="description">Description</label>
                 <span class="semi">:</span>
-                <textarea type="text" id="description" placeholder="Enter your details here" oninput="autoExpand(this)"></textarea>
+                <textarea type="text" id="description" placeholder="Enter your details here" name="description" required></textarea>
             </div>
 
             <div class="input-container">
                 <label for="location">Location</label>
                 <span class="semi">:</span>
-                <input type="text" id="location" placeholder="Choose your location here">
+                <input type="text" id="location" placeholder="Enter your location here" name="location" required>
             </div>
 
             <div class="input-container">
                 <label for="date">Date</label>
                 <span class="semi">:</span>
-                <input type="date" id="date" placeholder="Choose your date here">
+                <input type="date" id="date" placeholder="Choose your date here" name="date" required>
             </div>
 
             <div class="submit-container">
                 <button type="submit" class="submit-btn">Submit</button>
             </div>
         </form>
-            <!-- <header class="header">
-                <div class="welcome-message">
-                    <h1>My Dashboard</h1>
-                    <p>Welcome to GoGreen</p>
-                </div>
-                <div class="user-profile">
-                    <button class="noti">
-                        <i class="fa-solid fa-bell"></i>
-                        <div class="noti-num">3</div>
-                    </button>
-                    <img src="image/handsome.jpeg" alt="Profile Picture">
-                    <p>Hello Nigg4</p>
-                </div>
-            </header>
+        <?php
+            if(isset($_GET['op'])){
+                $date = $_GET['op'];
+                echo '<input type="hidden" id="hiddenDate" name="date" value="' . $date . '">';
+            }
+        ?>
+            
 
-            <section class="content">
-                <div class="profile-card">
-
-                    <h2>Embayu Damansara West</h2>  
-
-                    <div class="details">
-                        <div class="timetable">
-                            <p class="timetable-font">Timetable</p>
-                            <div class = "timetable-container">
-                                <span class="day">Monday</span>
-                                <span class="time">8:30 am</span>
-                            </div>
-                            <hr class="timetableHR">
-                            <div class = "timetable-container">
-                                <span class="day">Tuesday</span>
-                                <span class="time">8:30 am</span>
-                            </div>
-                            <hr class="timetableHR">
-                            <div class = "timetable-container">
-                                <span class="day">Wednesday</span>
-                                <span class="time">-</span>
-                            </div>
-                            <hr class="timetableHR">
-                            <div class = "timetable-container">
-                                <span class="day">Thursday</span>
-                                <span class="time">8:30 am</span>
-                            </div>
-                            <hr class="timetableHR">
-                            <div class = "timetable-container">
-                                <span class="day">Friday</span>
-                                <span class="time">8:30 am</span>
-                            </div>
-                            
-                        </div>
-                        <div class="type">
-                            <div class="type-circle">
-                                <div class="hover-window window1">
-                                    <strong>Paper Recycling</strong><br><br>
-                                    We accept newspapers, magazines, cardboard, and office paper. Please ensure they are clean and dry.<br>
-                                    <em>Tip:</em> Flatten cardboard boxes to save space.<br>
-                                    <em>Impact:</em> Recycling paper helps save trees and reduces landfill waste.
-                                </div>
-                            </div>
-                            <div class="type-circle">
-                                <div class="hover-window window2">
-                                    <strong>Aluminium Recycling</strong><br><br>
-                                    We accept aluminum cans and foil. Please rinse them before recycling.<br>
-                                    <em>Tip:</em> Crush cans to save space.<br>
-                                    <em>Impact:</em> Recycling aluminum saves 95% of the energy required to produce new aluminum.
-                                </div>
-                            </div>
-                            <div class="type-circle">
-                                <div class="hover-window window3">
-                                    <strong>Plastic Recycling</strong><br><br>
-                                    We accept plastic bottles, containers, and bags. Ensure they are rinsed and free of food residue.<br>
-                                    <em>Tip:</em> Remove caps from bottles for easier recycling.<br>
-                                    <em>Impact:</em> Recycling plastic reduces the amount of waste in our oceans.
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    <div class="schedule">
-                        <button class="schedule-btn">
-                            <span id="schedule-text">Schedule&nbsp;</span>
-                            <span id="your-text">Your</span>
-                            <span id="pickup-text">&nbsp;Pickup</span>
-                        </button>
-                    </div>
-
-                </div>
-                <div class="account-bill-container">
-                    <div class="accounts">
-                        <h2 class="history-h2">PickUp History</h2>
-                        <div class="history">
-                            <div class="history-content">
-                                <p>Monday 2/9/2024</p>
-                                <p>Type: Paper</p>
-                            </div>
-                            <hr class="history-line"></hr>
-                            <div class="history-content">
-                                <p>Monday 2/9/2024</p>
-                                <p>Type: Paper</p>
-                            </div>
-                            <hr class="history-line"></hr>
-                            <div class="history-content">
-                                <p>Monday 2/9/2024</p>
-                                <p>Type: Paper</p>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    <div class="statistics">
-                        <h2 class="statistics-h2">Statistics</h2>
-                        <canvas id="myChart"></canvas>
-                    </div>
-                </div>
-            </section> -->
         </main>
     </div>
 
@@ -206,7 +114,7 @@
                     this.classList.add('active');
                     selectedOption.value = this.dataset.value;
                 }
-                //console.log(selectedOption.value);
+                console.log(selectedOption.value);
             });
         });
     </script>
@@ -236,11 +144,40 @@
     }); 
 </script>
 
-<script> 
-    function autoExpand(textarea) {
-        textarea.style.height = "auto"; // Reset the height to auto to recalculate
-        textarea.style.height = textarea.scrollHeight + "px"; // Set it to the new height
+<script>
+const hiddenDateInput = document.getElementById('hiddenDate');
+const dateInput = document.getElementById('date');
+if (hiddenDateInput) {
+    dateInput.value = hiddenDateInput.value;
 }
+
+</script>
+
+<script>
+    const photoUpload = document.getElementById('photoUpload');
+    const removeFile = document.getElementById('removeFile');
+
+    photoUpload.addEventListener('change', function() {
+        if (photoUpload.files.length > 0) {
+            removeFile.style.display = 'inline';
+        }
+    });
+
+    removeFile.addEventListener('click', function() {
+        photoUpload.value = '';
+        removeFile.style.display = 'none';
+    });
+</script>
+
+<script>
+    const form = document.getElementById('form');
+    form.addEventListener('submit', function(event) {
+        if(selectedOption.value == ''){
+            alert('Please select an issue type before submitting.');
+            event.preventDefault(); 
+        }
+    });
+
 </script>
 
 

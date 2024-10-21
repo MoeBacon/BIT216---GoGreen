@@ -258,7 +258,16 @@ ul li {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     width: 700px; /* You can adjust the width as needed */
     max-width: 90%; /* Responsive for smaller screens */
+    max-height: 90%;
     text-align: center; /* Center align text */
+    overflow-y: auto;
+}
+
+#modalImage{
+    width: 80%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Close button */

@@ -7,7 +7,7 @@ body {
   
   .container {
     margin-left: 310px; /* Sidebar width + some margin */
-    padding: 20px;
+
     padding-top: 0;
   }
 
@@ -260,7 +260,7 @@ ul li {
   }
   
   label {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
   
   .dropdown,
@@ -268,8 +268,16 @@ ul li {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 1rem;
+    font-size: 0.9rem;
     margin-right: 10px;
+  }
+
+  .message{
+    height: 284px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   
   .generate-btn {

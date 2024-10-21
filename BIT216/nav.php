@@ -17,6 +17,7 @@
         <li><a href="schedule.php" class="<?php echo ($currentPage == 'schedule.php') ? 'active' : ''; ?>"><i class="fa-solid fa-calendar-days"></i><span>Schedule PickUp</span></a></li>
         <li><a href="history.php" class="<?php echo ($currentPage == 'history.php') ? 'active' : ''; ?>"><i class="fa-solid fa-clock-rotate-left"></i><span>History</span></a></li>
         <li><a href="overview.php" class="<?php echo ($currentPage == 'overview.php') ? 'active' : ''; ?>"><i class="fa-solid fa-chart-simple"></i><span>Overview</span></a></li>
+        
         <li class="logout"><a href="php/functions.php?op=signOut"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></a></li>
     </ul>
 </nav>

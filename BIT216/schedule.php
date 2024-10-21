@@ -1,3 +1,12 @@
+<?php
+    include 'php/dbConnect.php';
+    session_start();
+    if(!isset($_SESSION['username'])){
+        header ("Location: login.php");
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +18,8 @@
 
     <script src="https://kit.fontawesome.com/bbf63d7a1f.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
     
@@ -22,25 +33,25 @@
             ?>
         </aside>
         <main class="main-content">
-        <form class="report-form">
+        <form class="report-form" method="post" id="form" action="php/functions.php?op=addPickup">
             <div class="banner">
-                <h2>Pickup History</h2>
+                <h2>Schedule Pickup</h2>
             </div>
 
             <div class="icon-container">
-                <div class="icon-box-container">
+                <div class="icon-box-container" data-value="household">
                     <div class="icon-box" data-value="household">
                         <img src="image/household.png" alt="Household Waste">
                     </div>
                     <p>Household Waste</p>
                 </div>
-                <div class="icon-box-container">
-                    <div class="icon-box" data-value="recycable">
-                        <img src="image/recycable.png" alt="Recycable Waste">
+                <div class="icon-box-container" data-value="recyclable">
+                    <div class="icon-box" data-value="recyclable">
+                        <img src="image/recyclable.png" alt="Recyclable Waste">
                     </div>
-                    <p>Recycable Waste</p>
+                    <p>Recyclable Waste</p>
                 </div>
-                <div class="icon-box-container">
+                <div class="icon-box-container" data-value="hazardous">
                     <div class="icon-box" data-value="hazardous">
                         <img src="image/hazardous.png" alt="Hazardous Wate">
                     </div>
@@ -52,16 +63,140 @@
             <div class="input-field-container">
                 <div class="input-container">
                     <span class="icon-calendar">📅</span>
-                    <input type="date" id="date" placeholder="Choose your date here">
+                    <select name="day" id="daySelector" required>
+                        <option selected value="">Select day</option>
+                        <?php
+                            global $dbConnection;
+                            $email = $_SESSION['username'];
+                            $sql = "SELECT comID FROM user WHERE userEmail = '$email'";
+                            $result = mysqli_query($dbConnection,$sql);
+                            $row = mysqli_fetch_assoc($result);
+
+                            $comID = $row['comID'];
+                            $days = [];
+                            $sql2 = "SELECT DISTINCT scheDay FROM schedule WHERE comID = '$comID' ORDER BY FIELD(scheDay, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')";
+                            $result2 = mysqli_query($dbConnection,$sql2);
+
+
+
+                            function getNextAvailableDate($day) {
+                                // Array mapping day names to day numbers (Monday = 1, ..., Sunday = 7)
+                                $dayMap = [
+                                    "Monday" => 1,
+                                    "Tuesday" => 2,
+                                    "Wednesday" => 3,
+                                    "Thursday" => 4,
+                                    "Friday" => 5,
+                                    "Saturday" => 6,
+                                    "Sunday" => 7
+                                ];
+                            
+                                // Get the current day number (Monday = 1, ..., Sunday = 7)
+                                $currentDayNumber = date('N');
+                            
+                                // Get the target day number
+                                $targetDayNumber = $dayMap[$day];
+                            
+                                // Calculate the number of days to add to get the next target day
+                                $daysToAdd = ($targetDayNumber - $currentDayNumber + 7) % 7;
+                                if ($daysToAdd == 0) {
+                                    $daysToAdd = 7; // If today is the target day, set it for the next week
+                                }
+                            
+                                // Calculate the next available date
+                                $nextDate = date('Y-m-d', strtotime("+$daysToAdd days"));
+                            
+                                return $nextDate;
+                            }
+
+                            function getSecondAvailableDate($day) {
+                                    // Array mapping day names to day numbers (Monday = 1, ..., Sunday = 7)
+                                $dayMap = [
+                                    "Monday" => 1,
+                                    "Tuesday" => 2,
+                                    "Wednesday" => 3,
+                                    "Thursday" => 4,
+                                    "Friday" => 5,
+                                    "Saturday" => 6,
+                                    "Sunday" => 7
+                                ];
+
+                                // Get the current day number (Monday = 1, ..., Sunday = 7)
+                                $currentDayNumber = date('N');
+
+                                // Get the target day number
+                                $targetDayNumber = $dayMap[$day];
+
+                                // Calculate the number of days to add to get the next target day
+                                $daysToAdd = ($targetDayNumber - $currentDayNumber + 7) % 7;
+                                
+                                // If today is the target day, set it for the next week
+                                if ($daysToAdd == 0) {
+                                    $daysToAdd = 7; 
+                                }
+
+                                // Calculate the next available date (first occurrence)
+                                $nextDate = strtotime("+$daysToAdd days");
+
+                                // Add 7 more days to get the next-next available date (second occurrence)
+                                $nextNextDate = strtotime("+7 days", $nextDate);
+
+                                // Format the date as yyyy-mm-dd
+                                return date('Y-m-d', $nextNextDate);
+                            }
+
+
+
+                            while ($row2 = mysqli_fetch_assoc($result2)) {
+                                $scheDay = $row2['scheDay'];
+                                $nextAvailableDate = getNextAvailableDate($scheDay); // Get the next available date for this day
+                                $secondAvailableDate = getSecondAvailableDate($scheDay);
+                                echo "<option value='$nextAvailableDate'>$scheDay ( $nextAvailableDate )</option>";
+                                echo "<option value='$secondAvailableDate'>$scheDay ( $secondAvailableDate )</option>";
+                            }
+                            
+                            
+                            
+                        ?>
+                    </select>
+
+
+                    <!-- <input type="date"  id="date" placeholder="Choose your date here"> -->
                 </div>
                 <hr>
                 <div class="input-container">
                     <span class="icon-time">🕑</span>
-                    <select name="time">
-                        <option>a</option>
-                        <option>b</option>
-                        <option>c</option>
-                        <option>d</option>
+                    <select name="time" id="timeSelector" required>
+                        <option selected value="">Select a day first</option>
+                        <?php
+                            $sql = "SELECT scheTime FROM schedule WHERE comID='$comID' AND scheDay = 'Monday' ORDER BY STR_TO_DATE(scheTime, '%h:%i %p') ASC";
+                            $result = mysqli_query($dbConnection,$sql);
+                            while($row = mysqli_fetch_assoc($result)){
+                                echo "<option class='Monday' value='" . $row['scheTime'] . "'>" . $row['scheTime'] . "</option>";
+                            }
+                            $sql = "SELECT scheTime FROM schedule WHERE comID='$comID' AND scheDay = 'Tuesday' ORDER BY STR_TO_DATE(scheTime, '%h:%i %p') ASC";
+                            $result = mysqli_query($dbConnection,$sql);
+                            while($row = mysqli_fetch_assoc($result)){
+                                echo "<option class='Tuesday' value='" . $row['scheTime'] . "'>" . $row['scheTime'] . "</option>";
+                            }
+                            $sql = "SELECT scheTime FROM schedule WHERE comID='$comID' AND scheDay = 'Wednesday' ORDER BY STR_TO_DATE(scheTime, '%h:%i %p') ASC";
+                            $result = mysqli_query($dbConnection,$sql);
+                            while($row = mysqli_fetch_assoc($result)){
+                                echo "<option class='Wednesday' value='" . $row['scheTime'] . "'>" . $row['scheTime'] . "</option>";
+                            }
+                            $sql = "SELECT scheTime FROM schedule WHERE comID='$comID' AND scheDay = 'Thursday' ORDER BY STR_TO_DATE(scheTime, '%h:%i %p') ASC";
+                            $result = mysqli_query($dbConnection,$sql);
+                            while($row = mysqli_fetch_assoc($result)){
+                                echo "<option class='Thursday' value='" . $row['scheTime'] . "'>" . $row['scheTime'] . "</option>";
+                            }
+                            $sql = "SELECT scheTime FROM schedule WHERE comID='$comID' AND scheDay = 'Friday' ORDER BY STR_TO_DATE(scheTime, '%h:%i %p') ASC";
+                            $result = mysqli_query($dbConnection,$sql);
+                            while($row = mysqli_fetch_assoc($result)){
+                                echo "<option class='Friday' value='" . $row['scheTime'] . "'>" . $row['scheTime'] . "</option>";
+                            }
+
+                        ?>
+
                     </select>
                     <!-- <input type="text" id="time" placeholder="Choose your time here"> -->
                 </div>
@@ -71,119 +206,7 @@
             </div>
 
         </form>
-            <!-- <header class="header">
-                <div class="welcome-message">
-                    <h1>My Dashboard</h1>
-                    <p>Welcome to GoGreen</p>
-                </div>
-                <div class="user-profile">
-                    <button class="noti">
-                        <i class="fa-solid fa-bell"></i>
-                        <div class="noti-num">3</div>
-                    </button>
-                    <img src="image/handsome.jpeg" alt="Profile Picture">
-                    <p>Hello Nigg4</p>
-                </div>
-            </header>
 
-            <section class="content">
-                <div class="profile-card">
-
-                    <h2>Embayu Damansara West</h2>  
-
-                    <div class="details">
-                        <div class="timetable">
-                            <p class="timetable-font">Timetable</p>
-                            <div class = "timetable-container">
-                                <span class="day">Monday</span>
-                                <span class="time">8:30 am</span>
-                            </div>
-                            <hr class="timetableHR">
-                            <div class = "timetable-container">
-                                <span class="day">Tuesday</span>
-                                <span class="time">8:30 am</span>
-                            </div>
-                            <hr class="timetableHR">
-                            <div class = "timetable-container">
-                                <span class="day">Wednesday</span>
-                                <span class="time">-</span>
-                            </div>
-                            <hr class="timetableHR">
-                            <div class = "timetable-container">
-                                <span class="day">Thursday</span>
-                                <span class="time">8:30 am</span>
-                            </div>
-                            <hr class="timetableHR">
-                            <div class = "timetable-container">
-                                <span class="day">Friday</span>
-                                <span class="time">8:30 am</span>
-                            </div>
-                            
-                        </div>
-                        <div class="type">
-                            <div class="type-circle">
-                                <div class="hover-window window1">
-                                    <strong>Paper Recycling</strong><br><br>
-                                    We accept newspapers, magazines, cardboard, and office paper. Please ensure they are clean and dry.<br>
-                                    <em>Tip:</em> Flatten cardboard boxes to save space.<br>
-                                    <em>Impact:</em> Recycling paper helps save trees and reduces landfill waste.
-                                </div>
-                            </div>
-                            <div class="type-circle">
-                                <div class="hover-window window2">
-                                    <strong>Aluminium Recycling</strong><br><br>
-                                    We accept aluminum cans and foil. Please rinse them before recycling.<br>
-                                    <em>Tip:</em> Crush cans to save space.<br>
-                                    <em>Impact:</em> Recycling aluminum saves 95% of the energy required to produce new aluminum.
-                                </div>
-                            </div>
-                            <div class="type-circle">
-                                <div class="hover-window window3">
-                                    <strong>Plastic Recycling</strong><br><br>
-                                    We accept plastic bottles, containers, and bags. Ensure they are rinsed and free of food residue.<br>
-                                    <em>Tip:</em> Remove caps from bottles for easier recycling.<br>
-                                    <em>Impact:</em> Recycling plastic reduces the amount of waste in our oceans.
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    <div class="schedule">
-                        <button class="schedule-btn">
-                            <span id="schedule-text">Schedule&nbsp;</span>
-                            <span id="your-text">Your</span>
-                            <span id="pickup-text">&nbsp;Pickup</span>
-                        </button>
-                    </div>
-
-                </div>
-                <div class="account-bill-container">
-                    <div class="accounts">
-                        <h2 class="history-h2">PickUp History</h2>
-                        <div class="history">
-                            <div class="history-content">
-                                <p>Monday 2/9/2024</p>
-                                <p>Type: Paper</p>
-                            </div>
-                            <hr class="history-line"></hr>
-                            <div class="history-content">
-                                <p>Monday 2/9/2024</p>
-                                <p>Type: Paper</p>
-                            </div>
-                            <hr class="history-line"></hr>
-                            <div class="history-content">
-                                <p>Monday 2/9/2024</p>
-                                <p>Type: Paper</p>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    <div class="statistics">
-                        <h2 class="statistics-h2">Statistics</h2>
-                        <canvas id="myChart"></canvas>
-                    </div>
-                </div>
-            </section> -->
         </main>
     </div>
 
@@ -208,34 +231,120 @@
                     iconBox.classList.add('active');
                     selectedOption.value = iconBox.dataset.value;
                 }
-                //console.log(selectedOption.value);
+                console.log(selectedOption.value);
             });
         });
     </script>
 
     <script>
 
-    const datePicker = document.getElementById('date');
 
 
-    const today = new Date();
 
 
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1); 
 
-    // Format the date as yyyy-mm-dd
-    const year = tomorrow.getFullYear();
-    const month = String(tomorrow.getMonth() + 1).padStart(2, '0'); 
-    const day = String(tomorrow.getDate()).padStart(2, '0');
-    
-    const minDate = `${year}-${month}-${day}`;
+
 
     
-    datePicker.setAttribute('min', minDate);
-    datePicker.addEventListener('click', () => {
-            datePicker.showPicker(); 
-    }); 
+        // const allowedDaysString = document.getElementById('hiddenDay').value;
+        // const dayMap = {
+        //     "Sunday": 0,
+        //     "Monday": 1,
+        //     "Tuesday": 2,
+        //     "Wednesday": 3,
+        //     "Thursday": 4,
+        //     "Friday": 5,
+        //     "Saturday": 6
+        // };
+        // const allowedDays = allowedDaysString.split(', ').map(day => dayMap[day]);
+
+        // // Set up the date picker
+        // const datePicker = document.getElementById('date');
+        // const today = new Date();
+        // const tomorrow = new Date(today);
+        // tomorrow.setDate(today.getDate() + 1);
+
+        // // Format the date as yyyy-mm-dd for the min date
+        // const year = tomorrow.getFullYear();
+        // const month = String(tomorrow.getMonth() + 1).padStart(2, '0');
+        // const day = String(tomorrow.getDate()).padStart(2, '0');
+        // const minDate = `${year}-${month}-${day}`;
+        // datePicker.setAttribute('min', minDate);
+
+        // // Function to check if a date matches an allowed day
+        // function isAllowedDay(date) {
+        //     const dayOfWeek = date.getDay(); // 0 for Sunday, 1 for Monday, etc.
+        //     return allowedDays.includes(dayOfWeek);
+        // }
+
+        // // Add an event listener to prevent user from selecting invalid dates
+        // datePicker.addEventListener('input', function() {
+        //     const selectedDate = new Date(this.value);
+        //     if (!isAllowedDay(selectedDate)) {
+        //         alert('Please select a date corresponding to the allowed days.');
+        //         this.value = ''; // Clear invalid selection
+        //     }
+        // });
+
+        // // Automatically show the date picker when clicking the input field
+        // datePicker.addEventListener('click', () => {
+        //     datePicker.showPicker();
+        // });
+
+
+    const daySelector = document.getElementById('daySelector');
+    const timeSelector = document.getElementById('timeSelector');
+
+    // Function to display options based on selected day
+    function updateTimeOptions() {
+        const selectedText = daySelector.options[daySelector.selectedIndex].text;
+        const options = timeSelector.options;  // Get all options in timeSelector
+
+        const selectedDay = selectedText.split(' (')[0];
+
+
+        // Loop through all the options in timeSelector
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].classList.contains(selectedDay)) {
+                options[i].style.display = 'block';  // Show options of the selected day
+            } else {
+                options[i].style.display = 'none';  // Hide options that don't match the selected day
+            }
+        }
+    }
+
+    // Call updateTimeOptions on day change
+    daySelector.addEventListener('change', updateTimeOptions);
+
+    // Call updateTimeOptions on page load
+    updateTimeOptions();  // Call this function to set initial state
+
+
+
+
+</script>
+
+
+<script>
+    const form = document.getElementById('form');
+    function formSubmitValidation(){
+        const selectedOption = document.getElementById('selectedOption');
+        const day = document.getElementById('daySelector');
+        const time = document.getElementById('timeSelector');
+        if(selectedOption.value == ''){
+            alert('Please select a waste type');
+            event.preventDefault();
+        }
+        else if(day.value == ''){
+            alert('Please select a day');
+            event.preventDefault();
+        }
+        else if(time.value == ''){
+            alert('Please select a time');
+            event.preventDefault();
+        }
+    }
+    form.addEventListener('submit',formSubmitValidation);
 </script>
 
 

@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -50,10 +49,7 @@
                             <button class="btn-avatar btn-delete">Delete</button>
                         </div>
                         <div class="col-6"></div>
-                        <div class="col-2 save-btn-div">
-                            <button class="btn btn-secondary btn-save">Cancel</button>
-                            <button class="btn btn-success btn-cancel">Save</button>
-                        </div> 
+        
 
 
                     </div>
@@ -93,18 +89,16 @@
                         </div>
                     </div>
 
-                    <div class="row mb-3">
-                        <div class="col">
-                            <label for="address">Address</label>
-                            <input type="text" class="form-control" id="address" placeholder="Address">
-                        </div>
-                    </div>
 
                     
 
                     <!-- Save Changes button -->
-                    <div class="row">
-                        
+                    <div class="row mb-1">
+                        <div class="col"></div>
+                        <div class="col-2 save-btn-div">
+                            <button class="btn btn-secondary btn-save">Cancel</button>
+                            <button class="btn btn-success btn-cancel">Save</button>
+                        </div> 
                     </div>
                 </div>
                 <!-- <div class="profile-card">

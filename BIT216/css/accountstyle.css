@@ -225,10 +225,10 @@ body {
     box-shadow: 0 2px 4px rgba(194, 0, 0, 0.4);
     background-color: rgba(255, 255, 255, 0.95);
     padding-top: 20px;
-    padding-bottom: 30px;
+    padding-bottom: 20px;
     padding-left: 50px;
     padding-right: 50px;
-    height: 530px;
+    height: 510px;
 }
 
 .profile-card {
@@ -370,10 +370,10 @@ body {
 
 .save-btn-div{
     padding: 0 !important;
-    position: absolute;
     top: 0;
     right: 0;
     margin-right: 10px;
+    margin-top: 20px !important;
     display: flex;
 }
 

@@ -13,6 +13,8 @@
     <link href="css/theme.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/style2.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&display=swap">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <style>
         .custom-switch-container {
             display: flex;
@@ -149,7 +151,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <input id="address" type="text" name="address" class="form-control"
+                                                <input id="address2" type="text" name="address" class="form-control"
                                                     placeholder="Address" required="required"
                                                     data-error="Address Line1 is required.">
                                                 <div class="help-block with-errors"></div>
@@ -160,7 +162,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input id="city" type="text" name="city" class="form-control"
+                                                <input id="city2" type="text" name="city" class="form-control"
                                                     placeholder="City"
                                                     data-error="City is required.">
                                                 <div class="help-block with-errors"></div>
@@ -233,7 +235,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input id="form_email" type="email" name="email" class="form-control"
+                                                <input id="form_email2" type="email" name="email" class="form-control"
                                                     placeholder="Email" required="required"
                                                     data-error="Valid email is required.">
                                                 <div class="help-block with-errors"></div>
@@ -241,7 +243,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input id="form_phone" type="tel" name="phone" class="form-control"
+                                                <input id="form_phone2" type="tel" name="phone" class="form-control"
                                                     placeholder="Contact No (0101234567)" required="required"
                                                     data-error="Phone is required">
                                                 <div class="help-block with-errors"></div>
@@ -332,8 +334,8 @@
                                             <div class="remember-checkbox clearfix mb-4">
                                                 <div class="form-check">
                                                     <input type="checkbox" class="form-check-input float-none"
-                                                        id="customCheck1" required>
-                                                    <label class="form-check-label" for="customCheck1">I agree to the
+                                                        id="customCheck2" required>
+                                                    <label class="form-check-label" for="customCheck2">I agree to the
                                                         term of use and privacy policy</label>
                                                 </div>
                                             </div>

@@ -47,25 +47,45 @@
                     <p>Welcome to GoGreen</p>
                 </div>
                 <div class="user-profile">
-                    <button class="noti">
-                        <i class="fa-solid fa-bell"></i>
-                        <div class="noti-num">3</div>
+                    <button class="noti" onClick="toggleNotiDropdown()">
+                        <i class="fa-solid fa-bell" id="noti-icon"></i>
                     </button>
+                    <div class="noti-dropdown" id="notiDropdown">
+                        <?php
+                            global $dbConnection;
+                            $email = $_SESSION['username'];
+                            $sql = "SELECT comID FROM user WHERE userEmail = '$email'";
+                            $result = mysqli_query($dbConnection,$sql);
+                            $row = mysqli_fetch_assoc($result);
+                            $comID = $row['comID'];
+
+                            $sql2 = "SELECT annoTitle, annoDesc, annoDate, annoImage FROM announcement WHERE comID = '$comID'";
+                            $result = mysqli_query($dbConnection,$sql2);
+                            while($row = mysqli_fetch_assoc($result)){
+                                echo "<div class='noti-item' onclick=\"showNotificationDetails('" . addslashes($row['annoTitle']) . "', '" . $row['annoDate'] . "', 'photoUpload/" . $row['annoImage'] . "', '" . addslashes($row['annoDesc']) . "')\">
+                                    <h3>" . htmlspecialchars($row['annoTitle']) . "</h3>
+                                    <p>" . htmlspecialchars(substr($row['annoDesc'], 0, 50)) . "...</p>
+                                </div>";
+                            
+                            }
+
+                        ?>
+                    </div>
                     <img src="image/handsome.jpeg" alt="Profile Picture">
-                    <p>Hello Nigg4</p>
+                    <?php
+                        $sql = "SELECT userFname, userLname FROM user WHERE comID = '$comID'";
+                        $result = mysqli_query($dbConnection,$sql);
+                        $row = mysqli_fetch_assoc($result);
+                        $fname = $row['userFname'];
+                        $lname = $row['userLname'];
+                    ?>
+                    <p>Hello <?php echo $fname ?></p>
                 </div>
             </header>
 
             <section class="content">
                 <div class="profile-card">
                     <?php
-                        global $dbConnection;
-                        $email = $_SESSION['username'];
-                        $sql = "SELECT comID FROM user WHERE userEmail = '$email'";
-                        $result = mysqli_query($dbConnection,$sql);
-                        $row = mysqli_fetch_assoc($result);
-                        $comID = $row['comID'];
-
                         $sql2 = "SELECT comArea FROM community WHERE comID = '$comID'";
                         $result2 = mysqli_query($dbConnection,$sql2);
                         $row2 = mysqli_fetch_assoc($result2);
@@ -254,62 +274,84 @@
                 </div>
                 <div class="account-bill-container">
                     <div class="accounts">
-                        <h2 class="history-h2">PickUp History</h2>
+                        <h2 class="history-h2">Recent PickUp History</h2>
                         <div class="history">
-                            <div class="history-content">
-                                <p>Monday 2/9/2024</p>
-                                <p>Type: Paper</p>
-                            </div>
-                            <hr class="history-line"></hr>
-                            <div class="history-content">
-                                <p>Monday 2/9/2024</p>
-                                <p>Type: Paper</p>
-                            </div>
-                            <hr class="history-line"></hr>
-                            <div class="history-content">
-                                <p>Monday 2/9/2024</p>
-                                <p>Type: Paper</p>
-                            </div>
+                            <?php
+                                $sql = "SELECT userID FROM user WHERE userEmail = '$email'";
+                                $result = mysqli_query($dbConnection,$sql);
+                                $row = mysqli_fetch_assoc($result);
+                                $userID = $row['userID'];
+
+                                $sql2 = "SELECT * FROM pickup WHERE userID = '$userID' ORDER BY pickupDate DESC LIMIT 3";
+                                $result2 = mysqli_query($dbConnection,$sql2);
+                                $empty = 3 - mysqli_num_rows($result2);
+                                while($row2 = mysqli_fetch_assoc($result2)){
+                                    $day = date('l', strtotime($row2['pickupDate']));
+                                    echo '<div class="history-content">';
+                                    echo '    <p>' . $day . ' ' . $row2['pickupDate'] . '</p>';  
+                                    echo '    <p>Type: ' . ucfirst($row2['pickupType']) . ' Waste</p>';  
+                                    echo '</div>';
+                                    echo '<hr class="history-line"></hr>';
+                                }
+
+                                for($i=0; $i<$empty; $i++){
+                                    echo '<div class="history-content">';
+                                    echo '    <p>No</p>';  
+                                    echo '    <p>History</p>';  
+                                    echo '</div>';
+                                    echo '<hr class="history-line"></hr>';
+                                }
+
+
+                            ?>
+
                         </div>
-                        <!-- <div class="account">
-                            <p>Active account</p>
-                            <p>8040 5060 8098 4525</p>
-                            <button class="block-btn">Block Account</button>
-                        </div>
-                        <div class="account">
-                            <p>Blocked account</p>
-                            <p>7162 5088 3134 3148</p>
-                            <button class="unblock-btn">Unblock account</button>
-                        </div> -->
+
                     </div>
                     <div class="statistics">
                         <h2 class="statistics-h2">Statistics</h2>
                         <canvas id="myChart"></canvas>
-                        <!-- <div class="bill">
-                            <p>Phone bill</p>
-                            <span class="status paid">Bill paid</span>
+
+                    </div>
+                    <div id="notification-modal" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeModal()">&times;</span>
+                            <h3 id="modal-title"></h3>
+                            <p id="modal-date"></p>
+                            <img id="modal-image" src="" alt="Notification Image" />
+                            <p id="modal-content"></p>
                         </div>
-                        <div class="bill">
-                            <p>Internet bill</p>
-                            <span class="status unpaid">Not paid</span>
-                        </div>
-                        <div class="bill">
-                            <p>House rent</p>
-                            <span class="status paid">Bill paid</span>
-                        </div>
-                        <div class="bill">
-                            <p>Income tax</p>
-                            <span class="status paid">Bill paid</span>
-                        </div> -->
                     </div>
                 </div>
             </section>
+
         </main>
     </div>
 
+    <?php
+        // Query 1
+        $result1 = mysqli_query($dbConnection, "SELECT COUNT(pickupID) FROM pickup WHERE pickupType = 'household' AND userID = '$userID'");
+        $row1 = mysqli_fetch_assoc($result1);
+        $value1 = $row1['COUNT(pickupID)'];
+
+
+        // Query 2
+        $result2 = mysqli_query($dbConnection, "SELECT COUNT(pickupID) FROM pickup WHERE pickupType = 'recyclable' AND userID = '$userID'");
+        $row2 = mysqli_fetch_assoc($result2);
+        $value2 = $row2['COUNT(pickupID)'];
+
+
+        // Query 3
+        $result3 = mysqli_query($dbConnection, "SELECT COUNT(pickupID) FROM pickup WHERE pickupType = 'hazardous' AND userID = '$userID'");
+        $row3 = mysqli_fetch_assoc($result3);
+        $value3 = $row3['COUNT(pickupID)'];
+
+    ?>
+
     <script>
-        var xValues = ["Paper", "Aluminium", "Plastic"];
-        var yValues = [10, 10, 10];
+        var xValues = ["Household", "Recyclable", "Hazardous"];
+        var yValues = [<?php echo $value1; ?>, <?php echo $value2; ?>, <?php echo $value3; ?>];
+
         var barColors = [
         "#a2df9c",
         "#00aba9",
@@ -337,5 +379,79 @@
         }
         });
     </script>
+
+    <script>
+        function toggleNotiDropdown() {
+            var dropdown = document.getElementById("notiDropdown");
+            if (dropdown.style.display === "block") {
+                dropdown.style.display = "none";
+            } else {
+                dropdown.style.display = "block";
+            }
+        }
+
+        // Optionally, close the dropdown if clicked outside of it
+        window.onclick = function(event) {
+
+            if (!event.target.matches('.noti') && !event.target.closest('.noti-dropdown')) {
+                var dropdown = document.getElementById("notiDropdown");
+                if (dropdown.style.display === "block") {
+                    dropdown.style.display = "none";
+                }
+            }
+        }
+    </script>
+
+    <script>
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     // This will close the notification modal when clicking outside of it
+        //     window.addEventListener('click', function(event) {
+        //         const modal = document.getElementById('notification-modal');
+        // const notificationList = document.getElementById('notification-list');
+        
+        // // Check if modal and notificationList are not null
+        // if (modal && notificationList) {
+        //     // Close the modal if the click is outside of it
+        //     if (event.target === modal) {
+        //         closeModal();
+        //     }
+            
+        //     // Close the notification list if clicking outside of it
+        //     if (!notificationList.contains(event.target) && !modal.contains(event.target)) {
+        //         // Hide the notification list or perform your close logic
+        //         // closeNotificationList(); // Implement this function if necessary
+        //     }
+        // } else {
+        //     console.error("Modal or notification list element not found.");
+        // }
+        //     });
+        // });
+
+        function showNotificationDetails(title, date, image, content) {
+            // Set the content of the modal
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-date').innerText = date;
+            document.getElementById('modal-content').innerText = content;
+            const modalImage = document.getElementById('modal-image');
+
+            if (image == 'photoUpload/') {
+                modalImage.style.display = 'none'; // Hide image if not present
+            } else {
+                
+                modalImage.src = image;
+                modalImage.style.display = 'block'; // Show image if present
+            }
+
+            // Display the modal
+            document.getElementById('notification-modal').style.display = 'block';
+        }
+
+        function closeModal() {
+            // Hide the modal
+            document.getElementById('notification-modal').style.display = 'none';
+        }
+
+    </script>
+
 </body>
 </html>

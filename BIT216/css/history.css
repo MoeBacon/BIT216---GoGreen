@@ -257,6 +257,14 @@ body {
     height: 187px;
 }
 
+.no-his-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding-top: 120px;
+}
+
 .icon-calendar, .icon-time{
     margin-left: 10px;
     margin-right: 10px;
@@ -459,8 +467,17 @@ label{
     margin-bottom: 3px;
 }
 
-.completed {
+.Completed {
     background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.Pending {
+    background-color: #409243;
     color: white;
     border: none;
     padding: 6px 10px;
