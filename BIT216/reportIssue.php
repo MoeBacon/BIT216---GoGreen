@@ -54,7 +54,7 @@
             <div class="input-container">
                 <label for="description">Description</label>
                 <span class="semi">:</span>
-                <textarea type="text" id="description" placeholder="Enter your details here"></textarea>
+                <textarea type="text" id="description" placeholder="Enter your details here" oninput="autoExpand(this)"></textarea>
             </div>
 
             <div class="input-container">
@@ -234,6 +234,13 @@
     datePicker.addEventListener('click', () => {
             datePicker.showPicker(); 
     }); 
+</script>
+
+<script> 
+    function autoExpand(textarea) {
+        textarea.style.height = "auto"; // Reset the height to auto to recalculate
+        textarea.style.height = textarea.scrollHeight + "px"; // Set it to the new height
+}
 </script>
 
 
