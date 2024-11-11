@@ -207,7 +207,7 @@ if($_GET['op']=="firstLogin"){
         location = '../dashboard.php';</script>";
 }
 
-if($_GET['op'] == "signOut"){
+
     if($_GET['op'] == "signOut"){
         $currentDate = date('Y-m-d');
         $sql = "SELECT * FROM pickup WHERE pickupDate < '$currentDate' AND pickupStatus = 'Pending'";
@@ -223,7 +223,7 @@ if($_GET['op'] == "signOut"){
         session_destroy();
         header("Location: ../login.php");
     }
-}
+
 
 if($_GET['op'] == 'forgetPass'){
     $email = $_POST['email'];
