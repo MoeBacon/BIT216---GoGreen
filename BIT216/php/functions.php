@@ -208,9 +208,21 @@ if($_GET['op']=="firstLogin"){
 }
 
 if($_GET['op'] == "signOut"){
-    session_start();
-    session_destroy();
-    header("Location: ../login.php");
+    if($_GET['op'] == "signOut"){
+        $currentDate = date('Y-m-d');
+        $sql = "SELECT * FROM pickup WHERE pickupDate < '$currentDate' AND pickupStatus = 'Pending'";
+        $result = mysqli_query($dbConnection,$sql);
+        if(mysqli_num_rows($result) > 0){
+            while($row = mysqli_fetch_assoc($result)){
+                $id = $row['pickupID'];
+                $sql2  = "UPDATE pickup SET pickupStatus = 'Completed' WHERE pickupID = $id";
+                mysqli_query($dbConnection,$sql2);
+            }
+        }
+        session_start();
+        session_destroy();
+        header("Location: ../login.php");
+    }
 }
 
 if($_GET['op'] == 'forgetPass'){
