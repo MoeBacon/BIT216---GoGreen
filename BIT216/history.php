@@ -119,6 +119,91 @@
         minDate: "2000-01-01"  
         });
     </script>
+
+<script>
+        
+
+        function filter(){
+            const dateRange = document.getElementById('date-range').value;
+            const wasteType = document.getElementById('type').value;
+            const historyEntries = document.querySelectorAll('.history-entry');
+            historyEntries.forEach(function(entry) {
+                    entry.style.display = 'block';
+            });
+            if(dateRange != '' || wasteType != 'all'){
+
+
+                if(dateRange != ''){
+                    
+                    if (dateRange.includes(" to ")) {
+                    const [startDate, endDate] = dateRange.split(" to ");
+                    const start = new Date(startDate);
+                    const end = new Date(endDate);
+
+                    // Loop through each history entry to show/hide based on the date
+                    historyEntries.forEach(function(entry) {
+                        const entryDate = new Date(entry.classList[2]);  // Assuming date is in class[1]
+                        if (entryDate >= start && entryDate <= end) {
+                            
+                        } else {
+                            entry.style.display = 'none';   // Hide entries outside range
+                        }
+                    });
+
+                    } else {
+                        // Handle case where the value is a single date
+                        const selectedDate = new Date(dateRange);
+
+                        historyEntries.forEach(function(entry) {
+                            const entryDate = new Date(entry.classList[2]);  // Assuming date is in class[1]
+                            if (entryDate.getTime() === selectedDate.getTime()) {
+                            
+                            } else {
+                                entry.style.display = 'none';   // Hide non-matching entries
+                            }
+                        });
+                    }
+                }
+                if(wasteType != 'all'){
+                    historyEntries.forEach(function(entry) {
+                        
+                        if (entry.classList.contains(wasteType)) {
+                            
+                        } else {
+                            entry.style.display = 'none';   
+                        }
+                    });
+                }
+            }
+            const visibleEntries = Array.from(historyEntries).some(entry => entry.style.display === 'block');
+
+    // If no entries are visible, display the "No pickup history" message
+    const noHistoryContainer = document.querySelector('.no-his-container');
+    if (!visibleEntries) {
+        // Create and display the no history message if it doesn't already exist
+        if (!noHistoryContainer) {
+            const noHistoryMessage = document.createElement('div');
+            noHistoryMessage.classList.add('no-his-container');
+            noHistoryMessage.innerHTML = '<p>----- No pickup history -----</p>';
+            document.querySelector('.history-container').appendChild(noHistoryMessage);
+        }
+    } else {
+        // If there are visible entries, remove the no history message if it exists
+        if (noHistoryContainer) {
+            noHistoryContainer.remove();
+        }
+    }
+            
+        }
+    </script>
+
+    <script>
+        const dateRangeInput = document.getElementById('date-range');
+        const type = document.getElementById('type');
+        dateRangeInput.addEventListener('change', filter);
+        type.addEventListener('change',filter);
+    </script>
+
     
 
 
