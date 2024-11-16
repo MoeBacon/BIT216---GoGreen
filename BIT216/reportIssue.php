@@ -64,11 +64,13 @@
                 </div>
 
             </div>
+            
             <div class="input-container">
                 <label for="description">Description</label>
                 <span class="semi">:</span>
-                <textarea type="text" id="description" placeholder="Enter your details here" name="description" required></textarea>
+                <textarea type="text" id="description" placeholder="Enter your details here" name="description" oninput="autoExpand(this)" required></textarea>
             </div>
+
 
             <div class="input-container">
                 <label for="location">Location</label>
@@ -124,21 +126,6 @@
     const datePicker = document.getElementById('date');
 
 
-    // const today = new Date();
-
-
-    // const tomorrow = new Date(today);
-    // tomorrow.setDate(today.getDate() + 1); 
-
-    // // Format the date as yyyy-mm-dd
-    // const year = tomorrow.getFullYear();
-    // const month = String(tomorrow.getMonth() + 1).padStart(2, '0'); 
-    // const day = String(tomorrow.getDate()).padStart(2, '0');
-    
-    // const minDate = `${year}-${month}-${day}`;
-
-    
-    // datePicker.setAttribute('min', minDate);
     datePicker.addEventListener('click', () => {
             datePicker.showPicker(); 
     }); 
@@ -178,6 +165,13 @@ if (hiddenDateInput) {
         }
     });
 
+</script>
+
+<script>
+    function autoExpand(textarea) {
+        textarea.style.height = "auto";
+        textarea.style.height = textarea.scrollHeight + "px";
+    }
 </script>
 
 
