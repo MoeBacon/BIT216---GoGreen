@@ -11,6 +11,8 @@ require 'phpmailer/src/PHPMailer.php';
 require 'phpmailer/src/SMTP.php';
 
 
+
+
 if($_GET['op'] == 'userSignUp'){
     $fname = $_POST['name'];
     $lname = $_POST['surname'];
@@ -192,7 +194,47 @@ if($_GET['op'] == 'login'){
         </script>";
         }
     }
+    $sql = "SELECT u.*, p.*
+        FROM user u
+        INNER JOIN pickup p ON u.userID = p.userID
+        WHERE p.pickupDate BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 1 DAY) AND p.reminder IS NULL
+        ";
+    $result = mysqli_query($dbConnection,$sql);
+    if(mysqli_num_rows($result) > 0){
+        while($row = mysqli_fetch_assoc($result)){
+            $time = $row['pickupTime'];
+            $date = $row['pickupDate'];
+            $email = $row['userEmail'];
+            $id = $row['pickupID'];
+            $type = $row['pickupType'];
 
+            $mail = new PHPMailer(true);
+
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'localxplorerphp@gmail.com';
+            $mail->Password = 'qnaw oijn gmcd hcka';
+            $mail->SMTPSecure = 'ssl';
+            $mail->Port = 465;
+
+            $mail->setFrom('localxplorerphp@gmail.com');
+            $mail->addAddress($email);
+
+            $mail->isHTML(true);
+
+            $mail->Subject = 'Waste Pickup Reminder';
+            $mail->Body = "We would like to remind you that you have a waste pickup on tomorrow, pickup details as below:<br>
+                            Pickup Type: $type<br>
+                            Date: $date<br>
+                            Time: $time";
+
+            if ($mail->send()) {
+                $sql2 = "UPDATE pickup SET reminder = 'sent' WHERE pickupID = $id";
+                mysqli_query($dbConnection,$sql2);
+            }
+        }
+    }
 }
 
 if($_GET['op']=="firstLogin"){
@@ -208,6 +250,16 @@ if($_GET['op']=="firstLogin"){
 }
 
 if($_GET['op'] == "signOut"){
+    $currentDate = date('Y-m-d');
+    $sql = "SELECT * FROM pickup WHERE pickupDate < '$currentDate' AND pickupStatus = 'Pending'";
+    $result = mysqli_query($dbConnection,$sql);
+    if(mysqli_num_rows($result) > 0){
+        while($row = mysqli_fetch_assoc($result)){
+            $id = $row['pickupID'];
+            $sql2  = "UPDATE pickup SET pickupStatus = 'Completed' WHERE pickupID = $id";
+            mysqli_query($dbConnection,$sql2);
+        }
+    }
     session_start();
     session_destroy();
     header("Location: ../login.php");
@@ -1072,4 +1124,10 @@ function generateRandomPassword($length = 8) {
 
 
 
+?>
+
+<?php
+
+    
+    
 ?>
