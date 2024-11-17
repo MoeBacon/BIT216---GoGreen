@@ -325,8 +325,9 @@ body {
     background: #022d62;
     border-color: #022d62;
   }
-  
-  
+  .btn.btn-primary:before {
+    right: -5px;
+}
   .btn-dark {
     background: #022d62;
     border-color: #022d62;
