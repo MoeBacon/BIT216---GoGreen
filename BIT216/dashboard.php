@@ -307,35 +307,6 @@
         </main>
     </div>
 
-    <script>
-        var xValues = ["Paper", "Aluminium", "Plastic"];
-        var yValues = [10, 10, 10];
-        var barColors = [
-        "#a2df9c",
-        "#00aba9",
-        "#3a3939e9"
-        ];
 
-        new Chart("myChart", {
-        type: "pie",
-        data: {
-            labels: xValues,
-            datasets: [{
-            backgroundColor: barColors,
-            data: yValues
-            }]
-        },
-        options: {
-            title: {
-            display: true,
-            text: "Type of Waste"
-            },
-            legend: {
-            display: true,
-            position: 'right'
-            }
-        }
-        });
-    </script>
 </body>
 </html>
